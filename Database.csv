@@ -1,0 +1,8 @@
+﻿MEMBER,5678 Sesame Street Richardson TX 75080,kxc123456@utdallas.edu,123456789,Kevin Chen,2,12/31/2019 12:00:01AM,12345
+ROOM,20,4,,,,,
+TRAINER,Pushpa Kumar,12345 Sesame Street Richardson TX 75080,aaa123456@utdallas.edu,1234567890,12987,,
+ROOM_Ctype,Spin1,4,,,,,
+MEMBER_Waiver,Waiver.pdf,12987,,,,,
+TRAINER_Certification,Spin1,12987,,,,,
+CLASS,05/16/2019 7:00:00PM,54321,6,Spin1,4,12987,4
+ATTENDS,12345,54321,,,,,
