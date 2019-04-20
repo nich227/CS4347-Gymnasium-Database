@@ -104,3 +104,25 @@ BEGIN
 	CALL check_credits(new.MemberID, new.Cnumber);
 END $
 
+DELIMITER $
+CREATE PROCEDURE `check_class`(IN InCNumber INT, IN InTime TIME, IN InCost INT, IN InCType INT, IN InDiscount_Cost INT, IN InTrainerID INT, IN InRoomID INT)
+BEGIN
+	IF ((SELECT Time.start_at FROM CLASS WHERE TrainerID = InTrainerID) > InTime.start_at AND (SELECT Time.end_at FROM CLASS WHERE TrainerID = InTrainerID) < InTime.start_at) OR ((SELECT Time.start_at FROM CLASS WHERE TrainerID = InTrainerID) > InTime.send_at AND (SELECT Time.end_at FROM CLASS WHERE TrainerID = InTrainerID) < InTime.end_at)
+		THEN SIGNAL SQLSTATE '45003'
+			SET MESSAGE_TEXT = 'Check constraint on Class Time failed';
+	END IF;
+END $
+
+DELIMITER $	
+CREATE TRIGGER `check_class_insert` BEFORE INSERT ON `CLASS`
+FOR EACH ROW 
+BEGIN 
+	CALL check_class(new.CNumber, new.Time, new.Cost, new.CType, new.Discount_Cost, new.TrainerID, new.RoomID);
+END $
+
+DELIMITER $	
+CREATE TRIGGER `check_class_update` BEFORE UPDATE ON `CLASS`
+FOR EACH ROW 
+BEGIN 
+	CALL check_class(new.CNumber, new.Time, new.Cost, new.CType, new.Discount_Cost, new.TrainerID, new.RoomID);
+END $
