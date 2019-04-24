@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS TRAINER
 
 CREATE TABLE IF NOT EXISTS ROOM_CType
 (
-  CType ENUM(''),
+  CType ENUM('yoga', 'aerobics', 'weightlifting'),
   RoomID TINYINT NOT NULL,
   PRIMARY KEY (CType, RoomID),
   FOREIGN KEY (RoomID) REFERENCES ROOM(RoomID)
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS ROOM_CType
 
 CREATE TABLE IF NOT EXISTS TRAINER_Certification
 (
-  Certification ENUM(''),
+  Certification ENUM('yoga', 'aerobics', 'weightlifting'),
   TrainerID SMALLINT NOT NULL,
   PRIMARY KEY (Certification, TrainerID),
   FOREIGN KEY (TrainerID) REFERENCES TRAINER(TrainerID)

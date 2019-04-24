@@ -46,7 +46,6 @@ for row in data:
         cursor.execute('INSERT INTO ROOM ' \
         'VALUES(%s, %s);', row)
 
-
     if row_type == 'CLASS':
         print("Imported a CLASS tuple with values:", row)
         cursor.execute('INSERT INTO CLASS ' \
