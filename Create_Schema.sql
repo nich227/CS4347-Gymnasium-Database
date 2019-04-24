@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS ROOM_CType
 
 CREATE TABLE IF NOT EXISTS TRAINER_Certification
 (
-  Certification INT NOT NULL,
+  Certification ENUM(''),
   TrainerID TINYINT NOT NULL,
   PRIMARY KEY (Certification, TrainerID),
   FOREIGN KEY (TrainerID) REFERENCES TRAINER(TrainerID)
