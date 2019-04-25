@@ -49,9 +49,9 @@ for row in data:
     if row_type == 'CLASS':
         print("Imported a CLASS tuple with values:", row)
         cursor.execute('INSERT INTO CLASS ' \
-        'VALUES(%s, %s, %s, %s, %s, %s, %s);', row)
+        'VALUES(%s, %s, %s, %s, %s, %s, %s, %s);', row)
 
 
 
 cursor.close()
-print('Done')
+print('SUCCESS: All tuples imported to the gym database.')

@@ -15,6 +15,21 @@ CREATE TABLE IF NOT EXISTS TRAINER
   PRIMARY KEY (TrainerID)
 );
 
+CREATE TABLE IF NOT EXISTS CLASS
+(
+  Time_Start DATETIME NOT NULL,
+  Time_End DATETIME NOT NULL,
+  CNumber INT NOT NULL,
+  Cost TINYINT NOT NULL,
+  CType ENUM('yoga', 'aerobics', 'weightlifting'),
+  Discount_Cost TINYINT NOT NULL,
+  TrainerID SMALLINT NOT NULL,
+  RoomID TINYINT NOT NULL,
+  PRIMARY KEY (CNumber),
+  FOREIGN KEY (TrainerID) REFERENCES TRAINER(TrainerID),
+  FOREIGN KEY (RoomID) REFERENCES ROOM(RoomID)
+);
+
 CREATE TABLE IF NOT EXISTS ROOM_CType
 (
   CType ENUM('yoga', 'aerobics', 'weightlifting'),
@@ -42,20 +57,6 @@ CREATE TABLE IF NOT EXISTS MEMBER
   TrainerID SMALLINT NOT NULL,
   PRIMARY KEY (MemberID),
   FOREIGN KEY (TrainerID) REFERENCES TRAINER(TrainerID)
-);
-
-CREATE TABLE IF NOT EXISTS CLASS
-(
-  Time DATETIME NOT NULL,
-  CNumber INT NOT NULL,
-  Cost TINYINT NOT NULL,
-  CType ENUM(''),
-  Discount_Cost TINYINT NOT NULL,
-  TrainerID SMALLINT NOT NULL,
-  RoomID TINYINT NOT NULL,
-  PRIMARY KEY (CNumber),
-  FOREIGN KEY (TrainerID) REFERENCES TRAINER(TrainerID),
-  FOREIGN KEY (RoomID) REFERENCES ROOM(RoomID)
 );
 
 CREATE TABLE IF NOT EXISTS ATTENDS
@@ -104,9 +105,9 @@ BEGIN
 END $
 
 DELIMITER $
-CREATE PROCEDURE `check_class`(IN InCNumber INT, IN InTime DATETIME, IN InCost TINYINT, IN InCType ENUM(''), IN InDiscount_Cost TINYINT, IN InTrainerID TINYINT, IN InRoomID TINYINT)
+CREATE PROCEDURE `check_class`(IN InCNumber INT, IN InTime_Start DATETIME, IN InTime_End DATETIME, IN InCost TINYINT, IN InCType ENUM('yoga', 'aerobics', 'weightlifting'), IN InDiscount_Cost TINYINT, IN InTrainerID SMALLINT, IN InRoomID TINYINT)
 BEGIN
-	IF ((SELECT Time.start_at FROM CLASS WHERE TrainerID = InTrainerID) > InTime.start_at AND (SELECT Time.end_at FROM CLASS WHERE TrainerID = InTrainerID) < InTime.start_at) OR ((SELECT Time.start_at FROM CLASS WHERE TrainerID = InTrainerID) > InTime.send_at AND (SELECT Time.end_at FROM CLASS WHERE TrainerID = InTrainerID) < InTime.end_at)
+	IF ((SELECT Time_Start FROM CLASS WHERE TrainerID = InTrainerID) > InTime_Start AND (SELECT Time_End FROM CLASS WHERE TrainerID = InTrainerID) < InTime_Start) OR ((SELECT Time_Start FROM CLASS WHERE TrainerID = InTrainerID) > InTime_End AND (SELECT Time_End FROM CLASS WHERE TrainerID = InTrainerID) < InTime_End)
 		THEN SIGNAL SQLSTATE '45003'
 			SET MESSAGE_TEXT = 'Check constraint on Class Time failed';
 	END IF;
@@ -116,12 +117,12 @@ DELIMITER $
 CREATE TRIGGER `check_class_insert` BEFORE INSERT ON `CLASS`
 FOR EACH ROW 
 BEGIN 
-	CALL check_class(new.CNumber, new.Time, new.Cost, new.CType, new.Discount_Cost, new.TrainerID, new.RoomID);
+	CALL check_class(new.CNumber, new.Time_Start, new.Time_End, new.Cost, new.CType, new.Discount_Cost, new.TrainerID, new.RoomID);
 END $
 
 DELIMITER $	
 CREATE TRIGGER `check_class_update` BEFORE UPDATE ON `CLASS`
 FOR EACH ROW 
 BEGIN 
-	CALL check_class(new.CNumber, new.Time, new.Cost, new.CType, new.Discount_Cost, new.TrainerID, new.RoomID);
+	CALL check_class(new.CNumber, new.Time_Start, new.Time_End, new.Cost, new.CType, new.Discount_Cost, new.TrainerID, new.RoomID);
 END $
