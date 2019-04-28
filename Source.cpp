@@ -65,7 +65,7 @@
 		//name the file and create it
 		myfile.open("database.csv");
 		//this is the command to write to the file
-		myfile << "Writing this to a file.\n";
+		//myfile << "Writing this to a file.\n";
 		//make trainers and their certifications
 		for (int i = 0; i < 28; i++) {
 			myfile << ("TRAINER," + tname[i] + ",12345 Sesame Street Richardson Tx 75080,email@email.com,1234567890," + to_string(number) + "\n");
@@ -76,7 +76,7 @@
 		int j = 0;
 		int k = 0;
 		for (int i = 0; i < 5000; i++) {
-			myfile << ("MEMBER,12345 Sesame Street Richardson Tx 75080,email@email.com,1234567890," + name[j] + " " + lname[k] + "," + to_string(number) + "," + to_string(rand() % 28) + "\n");
+			myfile << ("MEMBER,12345 Sesame Street Richardson Tx 75080,email@email.com,1234567890," + name[j] + " " + lname[k] + "," +to_string(rand()%8+12) + "," + to_string(number) + "," +"2019-" + to_string(rand()%3+10)+"-" +to_string(rand()%18+10) +" 23:59:00" + "," +to_string(rand() % 28+1) + "\n");
 			j++;
 			if (j == 21) {
 				j = 0;
@@ -100,7 +100,7 @@
 		int month = 1;
 		int time;
 		int credits;
-		for (int i = 0; i < 350; i++) {
+		for (int i = 0; i < 348; i++) {
 			credits = (rand() % 5) + 3;
 			for (int j = 0; j < 18; j++) {
 				time = j / 4;
@@ -143,8 +143,11 @@
 			else if (time == 4)
 				myfile << ("19:15:00,");
 			//class number credits type dics. credits, trainer, room#
-			myfile << (to_string(number)+"," + to_string(credits) + "," + type[j%3] + "," + to_string(credits-2) + ","+to_string((i*350+j)%28+1)+"," + to_string((i * 350 + j) % 4 + 1)+"\n");
+			myfile << (to_string(number)+"," + to_string(credits) + "," + type[j%3] + to_string(credits-2) + ","+to_string((i*350+j)%28+1)+"," + to_string((i * 350 + j) % 4 + 1)+"\n");
 			//attends
+			for (int k = 0; k < 10; k++) {
+				myfile << (to_string(rand() % 4999 + 29) + "," + to_string(number) + "\n");
+			}
 			number++;
 			}
 			if (day == 29) {
