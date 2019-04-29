@@ -4,7 +4,7 @@ import MySQLdb as sql_db
 gym_db = sql_db.connect(host='localhost', user='root', passwd='kumar$123', db='gym', autocommit=True)
 cursor = gym_db.cursor()
 
-data = csv.reader(open('Database.csv'))
+data = csv.reader(open('database_big.csv'))
 for row in data:
     row_type = row[0]
     row.pop(0)
