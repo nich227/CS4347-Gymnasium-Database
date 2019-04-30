@@ -5,7 +5,7 @@
 	using namespace std;
 
 	int main() {
-		string type[] = { "yoga,", "aerobics,","weightlifting," };
+		string type[] = { "yoga,", "aerobics,","weightlifting,", "yoga,", "aerobics,"};
 		string name[] = { "Alex", "Belle", "Chip", "Daisy", "Elizabeth", "Flynn", "Greg", "Harold", "Isabelle", "Junaid", "Kelsey", "Leslie", "Mike", "Nicholas", "Oliver", "Peter", "Robin", "Samuel", "Tyler", "Violet", "Wendy" };
 		string tname[] = { "Pushpa Kumar","Jason Smith","Farokh Bastani","Nhut Nguyen","Simeon Ntafos","Si Zheng","Kang Zhang",
 			"Sergey Bereg","John Cole","Andras Farago","Kevin Hamlen","Herman Harrison","Latifur Khan","Neeraj Mittal",
@@ -76,7 +76,7 @@
 		int j = 0;
 		int k = 0;
 		for (int i = 0; i < 5000; i++) {
-			myfile << ("MEMBER,12345 Sesame Street Richardson Tx 75080,email@email.com,1234567890," + name[j] + " " + lname[k] + "," +to_string(rand()%8+12) + "," + to_string(number) + "," +"2019-" + to_string(rand()%3+10)+"-" +to_string(rand()%18+10) +" 23:59:00" + "," +to_string(rand() % 28+1) + "\n");
+			myfile << ("MEMBER,12345 Sesame Street Richardson Tx 75080,email@email.com,1234567890," + name[j] + " " + lname[k] + "," + to_string(number) + "," +to_string(rand()%8+12) + ","  +"2019-" + to_string(rand()%3+10)+"-" +to_string(rand()%18+10) +" 23:59:00" + "," +to_string(rand() % 28+1) + "\n");
 			j++;
 			if (j == 21) {
 				j = 0;
@@ -100,10 +100,13 @@
 		int month = 1;
 		int time;
 		int credits;
+		int room;
+		int trainer;
 		for (int i = 0; i < 348; i++) {
 			credits = (rand() % 5) + 3;
 			for (int j = 0; j < 18; j++) {
 				time = j / 4;
+				
 				//date 1
 			if (month < 10)
 				myfile << ("CLASS,2019-0" + to_string(month));
@@ -143,7 +146,12 @@
 			else if (time == 4)
 				myfile << ("19:15:00,");
 			//class number credits type dics. credits, trainer, room#
-			myfile << (to_string(number)+"," + to_string(credits) + "," + type[j%3] + to_string(credits-2) + ","+to_string((i*350+j)%28+1)+"," + to_string((i * 350 + j) % 4 + 1)+"\n");
+			trainer = (i * 350 + j) % 28 + 1;
+			room = (trainer - 1) % 3;
+			if ((room == 0) && ((rand()) % 1 == 1))
+				room = 3;
+			room++;
+			myfile << ("ATTENDS,"+to_string(number)+"," + to_string(credits) + "," + type[room] + to_string(credits-2) + ","+to_string(trainer)+"," + to_string(room)+"\n");
 			//attends
 			for (int k = 0; k < 10; k++) {
 				myfile << (to_string(rand() % 4999 + 29) + "," + to_string(number) + "\n");
